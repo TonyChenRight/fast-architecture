@@ -1,0 +1,50 @@
+# Tomcat
+server:
+  port: 8080
+
+spring:
+  # \u73AF\u5883 dev|test|pro
+  profiles:
+    active: dev
+  # jackson\u65F6\u95F4\u683C\u5F0F\u5316
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      maxFileSize: 104857600 #100MB
+      maxRequestSize: 104857600 #100MB
+
+# mybaits-plus\u914D\u7F6E
+mybatis-plus:
+  # MyBatis Mapper\u6240\u5BF9\u5E94\u7684XML\u6587\u4EF6\u4F4D\u7F6E
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  global-config:
+    # \u5173\u95EDMP3.0\u81EA\u5E26\u7684banner
+    banner: false
+    db-config:
+      # \u4E3B\u952E\u7C7B\u578B 0:\u6570\u636E\u5E93ID\u81EA\u589E 1.\u672A\u5B9A\u4E49 2.\u7528\u6237\u8F93\u5165 3 id_worker 4.uuid 5.id_worker\u5B57\u7B26\u4E32\u8868\u793A
+      id-type: AUTO
+      # \u9ED8\u8BA4\u6570\u636E\u5E93\u8868\u4E0B\u5212\u7EBF\u547D\u540D
+      table-underline: true
+
+# \u76D1\u63A7\u4FE1\u606F\u914D\u7F6E
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,threaddump,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  config: classpath:log4j2.xml
+  # \u6253\u5370sql
+  level:
+    com.tony.fast.architecture.mapper: debug
+
+system:
+  max-token-expire-seconds: 28800
+  skip-permission-path: /common/**
+  api-signature: '{"417c4f3f30d34043": "5d940d7bb69d428eaf813a243591aba3"}'
