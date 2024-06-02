@@ -35,5 +35,7 @@
 
 ## 业务集成
 
+- RBAC权限模型
+- 自定义权限拦截
 - AccessLog访问日志
 - OperationLog操作日志
