@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tony.fast.architecture.mapper.UserRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.tony.fast.architecture.domain.UserRole">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+            <result property="roleCode" column="role_code" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="BIGINT"/>
+            <result property="creatorCode" column="creator_code" jdbcType="VARCHAR"/>
+            <result property="creatorName" column="creator_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_code,role_code,
+        created_at,creator_code,creator_name
+    </sql>
+</mapper>

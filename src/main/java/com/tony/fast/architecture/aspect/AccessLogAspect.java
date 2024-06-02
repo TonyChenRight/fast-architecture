@@ -1,7 +1,7 @@
 package com.tony.fast.architecture.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.tony.fast.architecture.context.UserContext;
+import com.tony.fast.architecture.context.UserContextHolder;
 import com.tony.fast.architecture.model.AccessLog;
 import com.tony.fast.architecture.model.UserInfo;
 import com.tony.fast.architecture.utils.HttpContextUtils;
@@ -78,7 +78,7 @@ public class AccessLogAspect {
 		accessLog.setIp(IPUtils.getIpAddr(request));
 
 		//用户
-		UserInfo user = UserContext.getUser();
+		UserInfo user = UserContextHolder.getUser();
 		if(user != null) {
 			accessLog.setAccessUser(user.getUserId());
 		}

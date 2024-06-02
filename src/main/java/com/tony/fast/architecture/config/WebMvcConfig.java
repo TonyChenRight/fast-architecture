@@ -3,6 +3,7 @@ package com.tony.fast.architecture.config;
 import com.tony.fast.architecture.interceptor.AllDenyInterceptor;
 import com.tony.fast.architecture.interceptor.ApiSignatureCheckInterceptor;
 import com.tony.fast.architecture.interceptor.PermissionCheckInterceptor;
+import com.tony.fast.architecture.service.UserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,9 +19,9 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    @Resource
-//    @Lazy
-//    private PermissionService permissionService;
+    @Resource
+    @Lazy
+    private UserService userService;
 
     @Resource
     @Lazy
@@ -33,7 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
 
-        List<String> excludePatterns = new ArrayList<>(Arrays.asList("/", "/info", "/open/**"));
+        List<String> excludePatterns = new ArrayList<>(Arrays.asList("/", "/info", "/open/**", "/test/**"));
         // knife4j 相关
         excludePatterns.addAll(Arrays.asList("/doc.html", "/webjars/**", "/swagger-resources", "/v2/api-docs"));
 
@@ -45,7 +46,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .order(-100);
 
         interceptorRegistry
-                .addInterceptor(new PermissionCheckInterceptor(redisTemplate, systemConfig))
+                .addInterceptor(new PermissionCheckInterceptor(userService, redisTemplate, systemConfig))
                 .addPathPatterns("/admin/**", "/common/**")
                 .excludePathPatterns(excludePatterns)
                 .order(0);

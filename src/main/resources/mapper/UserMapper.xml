@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tony.fast.architecture.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.tony.fast.architecture.domain.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="account" column="account" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createdAt" column="created_at" jdbcType="BIGINT"/>
+            <result property="updatedAt" column="updated_at" jdbcType="BIGINT"/>
+            <result property="creatorCode" column="creator_code" jdbcType="VARCHAR"/>
+            <result property="updaterCode" column="updater_code" jdbcType="VARCHAR"/>
+            <result property="creatorName" column="creator_name" jdbcType="VARCHAR"/>
+            <result property="updaterName" column="updater_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,name,
+        account,password,status,
+        created_at,updated_at,creator_code,
+        updater_code,creator_name,updater_name
+    </sql>
+</mapper>

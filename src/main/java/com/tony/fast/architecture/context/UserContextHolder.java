@@ -2,7 +2,7 @@ package com.tony.fast.architecture.context;
 
 import com.tony.fast.architecture.model.UserInfo;
 
-public class UserContext {
+public class UserContextHolder {
     private static final ThreadLocal<UserInfo> CONTEXT = ThreadLocal.withInitial(UserInfo::new);
 
     public static void setUser(UserInfo user) {

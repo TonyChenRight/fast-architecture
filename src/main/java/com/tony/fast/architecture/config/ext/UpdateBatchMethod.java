@@ -3,6 +3,7 @@ package com.tony.fast.architecture.config.ext;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.tony.fast.architecture.constant.Constants;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 
@@ -17,6 +18,6 @@ public class UpdateBatchMethod extends AbstractMethod {
         String setSql = sqlSet(tableInfo.isWithLogicDelete(), false, tableInfo, false, "item", "item.");
         String sqlResult = String.format(sql, tableInfo.getTableName(), setSql, tableInfo.getKeyColumn(), "item." + tableInfo.getKeyProperty(), additional);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlResult, modelClass);
-        return this.addUpdateMappedStatement(mapperClass, modelClass, "updateBatch", sqlSource);
+        return this.addUpdateMappedStatement(mapperClass, modelClass, Constants.MYBATIS_EXT_UPDATE_BATCH_METHOD, sqlSource);
     }
 }

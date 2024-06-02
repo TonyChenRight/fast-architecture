@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tony.fast.architecture.mapper.PermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.tony.fast.architecture.domain.Permission">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="parentCode" column="parent_code" jdbcType="VARCHAR"/>
+            <result property="perm" column="perm" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="weight" column="weight" jdbcType="INTEGER"/>
+            <result property="extConfig" column="ext_config" jdbcType="OTHER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createdAt" column="created_at" jdbcType="BIGINT"/>
+            <result property="updatedAt" column="updated_at" jdbcType="BIGINT"/>
+            <result property="creatorCode" column="creator_code" jdbcType="VARCHAR"/>
+            <result property="updaterCode" column="updater_code" jdbcType="VARCHAR"/>
+            <result property="creatorName" column="creator_name" jdbcType="VARCHAR"/>
+            <result property="updaterName" column="updater_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,name,
+        parent_code,perm,type,
+        weight,ext_config,status,
+        created_at,updated_at,creator_code,
+        updater_code,creator_name,updater_name
+    </sql>
+</mapper>

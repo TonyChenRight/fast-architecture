@@ -2,6 +2,8 @@ package com.tony.fast.architecture.config.ext;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.tony.fast.architecture.constant.Constants;
+import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
@@ -17,8 +19,8 @@ public class InsertBatchMethod extends AbstractMethod {
         final String valueSql = prepareValuesSql(tableInfo);
         final String sqlResult = String.format(sql, tableInfo.getTableName(), fieldSql, valueSql);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlResult, modelClass);
-        return this.addInsertMappedStatement(mapperClass, modelClass, "insertBatch",
-                sqlSource, new NoKeyGenerator(), null, null);
+        return this.addInsertMappedStatement(mapperClass, modelClass, Constants.MYBATIS_EXT_INSERT_BATCH_METHOD,
+                sqlSource, new Jdbc3KeyGenerator(), "id", "id");
     }
 
     private String prepareFieldSql(TableInfo tableInfo) {
