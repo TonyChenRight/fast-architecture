@@ -5,7 +5,6 @@ import com.tony.fast.architecture.constant.Codes;
 import com.tony.fast.architecture.constant.RedisKeys;
 import com.tony.fast.architecture.model.R;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -24,7 +23,7 @@ public class RedisLockUtil {
             boolean lock = lock(key, time);
             if (!lock) {
                 log.info("获取锁失败: {}", key);
-                return R.error(Codes.OPERATE_TOO_OFTEN);
+                return R.error(Codes.OPERATE_TOO_FREQUENTLY);
             }
             return supplier.get();
         }catch (Exception e) {

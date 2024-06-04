@@ -1,5 +1,6 @@
 package com.tony.fast.architecture;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,10 @@ public class FastArchitectureApplication {
         Environment env = applicationContext.getEnvironment();
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
+        String profile = env.getProperty("spring.profiles.active");
+        if (StrUtil.equalsIgnoreCase(profile, "dev")) {
+            ip = "127.0.0.1";
+        }
 
         log.info("------------------------服务已启动----------------------------------");
         log.info("\t系统主页: http://{}:{}", ip, port);

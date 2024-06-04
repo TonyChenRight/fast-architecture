@@ -2,8 +2,12 @@ package com.tony.fast.architecture.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tony.fast.architecture.constant.Constants;
 import com.tony.fast.architecture.domain.Permission;
@@ -11,6 +15,9 @@ import com.tony.fast.architecture.domain.RolePermission;
 import com.tony.fast.architecture.domain.User;
 import com.tony.fast.architecture.domain.UserRole;
 import com.tony.fast.architecture.enums.PermissionType;
+import com.tony.fast.architecture.model.R;
+import com.tony.fast.architecture.model.user.UserListReq;
+import com.tony.fast.architecture.model.user.UserPage;
 import com.tony.fast.architecture.service.PermissionService;
 import com.tony.fast.architecture.service.RolePermissionService;
 import com.tony.fast.architecture.service.UserRoleService;
@@ -23,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,6 +83,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             log.info("插入数据生成id: {}", JSON.toJSONString(list.get(0).getId()));
         }
         return count;
+    }
+
+    @Override
+    public R<IPage<UserPage>> userPage(UserListReq param) {
+        // 数据权限处理
+        LambdaQueryWrapper<User> queryWrapper = Wrappers.lambdaQuery(User.class)
+                .like(StrUtil.isNotBlank(param.getUsername()), User::getName, param.getUsername())
+                .eq(param.getId() != null, User::getId, param.getId())
+                .eq(StrUtil.isNotBlank(param.getAccount()), User::getAccount, param.getAccount())
+                .eq(StrUtil.isNotBlank(param.getCode()), User::getCode, param.getCode())
+                .eq(param.getStatus() != null, User::getStatus, param.getStatus())
+                .orderByDesc(User::getUpdatedAt);
+        IPage<User> listPage =super.page(new Page<>(param.getCurrent(), param.getSize()), queryWrapper);
+        return R.ok(listPage.convert(UserPage::new));
     }
 }
 

@@ -21,6 +21,7 @@
 - interceptor: 鉴权拦截等
 - mapper: 数据库实体操作接口
 - model: 系统流转pojo
+- remote: 外部接口对接
 - service: 业务处理
 - task: 定时任务
 - utils: 工具类
@@ -41,3 +42,4 @@
 - OperationLog操作日志
 - RedisLockUtil分布式锁工具类
 - i18n国际化
+- RemoteClient加签验签
