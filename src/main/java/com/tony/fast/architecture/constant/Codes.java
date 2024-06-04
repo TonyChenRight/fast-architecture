@@ -1,12 +1,11 @@
 package com.tony.fast.architecture.constant;
 
 public interface Codes {
-    int SUCCESS = 200;
+    String SUCCESS = "200";
+    String REDIRECT = "302";
+    String UNAUTHORIZED = "401";
+    String SYSTEM_ERROR = "500";
+    String ILLEGAL_PARAM = "502";
 
-    int REDIRECT = 302;
-    int UNAUTHORIZED = 401;
-    int SYSTEM_ERROR = 500;
-    int ILLEGAL_PARAM = 502;
-
-    int DATA_NOT_READY = 1001;
+    String OPERATE_TOO_FREQUENTLY= "10000";
 }

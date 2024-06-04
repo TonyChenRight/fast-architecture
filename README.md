@@ -39,3 +39,5 @@
 - 自定义权限拦截
 - AccessLog访问日志
 - OperationLog操作日志
+- RedisLockUtil分布式锁工具类
+- i18n国际化

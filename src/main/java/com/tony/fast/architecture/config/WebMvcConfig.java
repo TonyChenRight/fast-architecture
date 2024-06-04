@@ -4,17 +4,21 @@ import com.tony.fast.architecture.interceptor.AllDenyInterceptor;
 import com.tony.fast.architecture.interceptor.ApiSignatureCheckInterceptor;
 import com.tony.fast.architecture.interceptor.PermissionCheckInterceptor;
 import com.tony.fast.architecture.service.UserService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -69,5 +73,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(3600)
                 .allowedMethods("*");
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        AcceptHeaderLocaleResolver acceptHeaderLocaleResolver=new AcceptHeaderLocaleResolver();
+        acceptHeaderLocaleResolver.setDefaultLocale(Locale.CHINA);
+
+        List<Locale> locales=new ArrayList<>();
+        locales.add(Locale.US);
+        locales.add(Locale.CHINA);
+        acceptHeaderLocaleResolver.setSupportedLocales(locales);
+        return acceptHeaderLocaleResolver;
     }
 }

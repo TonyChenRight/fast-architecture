@@ -15,7 +15,7 @@ public class AllDenyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        ResponseUtil.writeJson(R.error(Codes.UNAUTHORIZED, "无权限"), response);
+        ResponseUtil.writeJson(R.error(Codes.UNAUTHORIZED), response);
         return false;
     }
 }

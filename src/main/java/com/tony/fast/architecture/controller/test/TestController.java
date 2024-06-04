@@ -2,12 +2,15 @@ package com.tony.fast.architecture.controller.test;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.tony.fast.architecture.annoation.OperLog;
+import com.tony.fast.architecture.constant.Codes;
 import com.tony.fast.architecture.context.OperationLogContextHolder;
 import com.tony.fast.architecture.domain.User;
 import com.tony.fast.architecture.enums.OperationModule;
 import com.tony.fast.architecture.enums.OperationType;
 import com.tony.fast.architecture.model.R;
+import com.tony.fast.architecture.model.lock.LockTestParam;
 import com.tony.fast.architecture.service.UserService;
+import com.tony.fast.architecture.utils.RedisLockUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Api(tags = "测试使用")
@@ -47,5 +51,23 @@ public class TestController {
         user.setCreatedAt(System.currentTimeMillis());
         user.setUpdatedAt(System.currentTimeMillis());
         return R.ok(userService.insertBatch(List.of(user)));
+    }
+
+    @PostMapping("/test_lock")
+    public R testLock(@RequestBody LockTestParam lockTestParam) {
+        R r = RedisLockUtil.lockWith(() -> {
+            try {
+                // 模拟耗时操作
+                Thread.sleep(8000);
+                System.out.println("处理完毕.....");
+                return R.ok();
+            } catch (InterruptedException e) {
+                return R.sysError(e.getMessage());
+            }
+        }, lockTestParam.getKey(), lockTestParam.getTimeout());
+        if(!r.isSuccess()) {
+            log.error("加锁失败...");
+        }
+        return r;
     }
 }
