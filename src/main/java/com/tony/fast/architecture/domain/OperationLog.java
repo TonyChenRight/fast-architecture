@@ -83,6 +83,7 @@ public class OperationLog implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+
     public static List<OperationLog> buildByCreate(OperationLogContext context, UserInfo userInfo, String ip, String params) {
         List<OperationLog> result =new ArrayList<>();
 

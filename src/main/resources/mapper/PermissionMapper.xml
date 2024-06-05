@@ -9,7 +9,6 @@
             <result property="code" column="code" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="parentCode" column="parent_code" jdbcType="VARCHAR"/>
-            <result property="perm" column="perm" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="TINYINT"/>
             <result property="weight" column="weight" jdbcType="INTEGER"/>
             <result property="extConfig" column="ext_config" jdbcType="OTHER"/>
@@ -24,9 +23,9 @@
 
     <sql id="Base_Column_List">
         id,code,name,
-        parent_code,perm,type,
-        weight,ext_config,status,
-        created_at,updated_at,creator_code,
-        updater_code,creator_name,updater_name
+        parent_code,type,weight,
+        ext_config,status,created_at,
+        updated_at,creator_code,updater_code,
+        creator_name,updater_name
     </sql>
 </mapper>

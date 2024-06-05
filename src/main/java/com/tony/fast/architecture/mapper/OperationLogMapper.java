@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 /**
 * @author tonychen
 * @description 针对表【operation_log(操作日志)】的数据库操作Mapper
-* @createDate 2024-06-02 20:47:54
+* @createDate 2024-06-05 19:06:40
 * @Entity com.tony.fast.architecture.domain.OperationLog
 */
 public interface OperationLogMapper extends ExtBaseMapper<OperationLog> {

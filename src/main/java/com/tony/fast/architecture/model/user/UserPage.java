@@ -15,8 +15,6 @@ public class UserPage {
     private String code;
     @ApiModelProperty(value = "名称", example = "xxx")
     private String name;
-    @ApiModelProperty(value = "账号", example = "cccc")
-    private String account;
     @ApiModelProperty(value = "密码", example = "cccc")
     private String password;
     @ApiModelProperty(value = "状态 0-禁用 1-启用", example = "1")

@@ -21,7 +21,7 @@ public class Permission implements Serializable {
     private Long id;
 
     /**
-     * 编码
+     * 编码,前端是路由,后端是接口路径
      */
     @TableField(value = "code")
     private String code;
@@ -37,12 +37,6 @@ public class Permission implements Serializable {
      */
     @TableField(value = "parent_code")
     private String parentCode;
-
-    /**
-     * 权限,前端是路由,后端是接口路径
-     */
-    @TableField(value = "perm")
-    private String perm;
 
     /**
      * 类型 1:菜单 2:接口

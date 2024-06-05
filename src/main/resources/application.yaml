@@ -3,10 +3,10 @@ server:
   port: 8080
 
 spring:
-  # \u73AF\u5883 dev|test|pro
+  # 环境 dev|test|pro
   profiles:
     active: dev
-  # jackson\u65F6\u95F4\u683C\u5F0F\u5316
+  # jackson时间格式化
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
@@ -17,20 +17,20 @@ spring:
   messages:
     basename: i18n.messages
 
-# mybaits-plus\u914D\u7F6E
+# mybaits-plus配置
 mybatis-plus:
-  # MyBatis Mapper\u6240\u5BF9\u5E94\u7684XML\u6587\u4EF6\u4F4D\u7F6E
+  # MyBatis Mapper所对应的XML文件位置
   mapper-locations: classpath:/mapper/**/*Mapper.xml
   global-config:
-    # \u5173\u95EDMP3.0\u81EA\u5E26\u7684banner
+    # 关闭MP3.0自带的banner
     banner: false
     db-config:
-      # \u4E3B\u952E\u7C7B\u578B 0:\u6570\u636E\u5E93ID\u81EA\u589E 1.\u672A\u5B9A\u4E49 2.\u7528\u6237\u8F93\u5165 3 id_worker 4.uuid 5.id_worker\u5B57\u7B26\u4E32\u8868\u793A
+      # 主键类型 0:数据库ID自增 1.未定义 2.用户输入 3 id_worker 4.uuid 5.id_worker字符串表示
       id-type: AUTO
-      # \u9ED8\u8BA4\u6570\u636E\u5E93\u8868\u4E0B\u5212\u7EBF\u547D\u540D
+      # 默认数据库表下划线命名
       table-underline: true
 
-# \u76D1\u63A7\u4FE1\u606F\u914D\u7F6E
+# 监控信息配置
 management:
   endpoints:
     web:
@@ -42,7 +42,7 @@ management:
 
 logging:
   config: classpath:log4j2.xml
-  # \u6253\u5370sql
+  # 打印sql
   level:
     com.tony.fast.architecture.mapper: debug
 

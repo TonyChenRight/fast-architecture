@@ -30,19 +30,19 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
 * @author tonychen
 * @description 针对表【user(用户表)】的数据库操作Service实现
-* @createDate 2024-06-02 14:17:44
+* @createDate 2024-06-05 19:06:40
 */
 @Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
+
     @Resource
     private UserRoleService userRoleService;
     @Resource
@@ -70,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 Wrappers.lambdaQuery(Permission.class)
                         .in(Permission::getCode, permissionCodes)
                         .eq(Permission::getType, PermissionType.API.getVal())
-        ).stream().map(Permission::getPerm).collect(Collectors.toSet());
+        ).stream().map(Permission::getCode).collect(Collectors.toSet());
     }
 
     @Override
@@ -91,7 +91,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         LambdaQueryWrapper<User> queryWrapper = Wrappers.lambdaQuery(User.class)
                 .like(StrUtil.isNotBlank(param.getUsername()), User::getName, param.getUsername())
                 .eq(param.getId() != null, User::getId, param.getId())
-                .eq(StrUtil.isNotBlank(param.getAccount()), User::getAccount, param.getAccount())
                 .eq(StrUtil.isNotBlank(param.getCode()), User::getCode, param.getCode())
                 .eq(param.getStatus() != null, User::getStatus, param.getStatus())
                 .orderByDesc(User::getUpdatedAt);

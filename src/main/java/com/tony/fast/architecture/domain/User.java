@@ -21,7 +21,7 @@ public class User implements Serializable {
     private Long id;
 
     /**
-     * 用户编码
+     * 编码,用户账号
      */
     @TableField(value = "code")
     private String code;
@@ -31,12 +31,6 @@ public class User implements Serializable {
      */
     @TableField(value = "name")
     private String name;
-
-    /**
-     * 登录账号
-     */
-    @TableField(value = "account")
-    private String account;
 
     /**
      * 登录密码

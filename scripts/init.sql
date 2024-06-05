@@ -1,10 +1,10 @@
 use fast_architecture;
 
+
 CREATE TABLE `user` (
     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    `code` varchar(64) NOT NULL DEFAULT '' COMMENT '用户编码',
+    `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码,用户账号',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户姓名',
-    `account` varchar(64) NOT NULL DEFAULT '' COMMENT '登录账号',
     `password` varchar(255) NOT NULL DEFAULT '' COMMENT '登录密码',
     `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态  0:禁用  1:正常',
     `created_at` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -14,8 +14,7 @@ CREATE TABLE `user` (
     `creator_name` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人名称',
     `updater_name` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人名称',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uniq_code` (`code`),
-    UNIQUE KEY `uniq_account` (`account`)
+    UNIQUE KEY `uniq_code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 
@@ -37,10 +36,9 @@ CREATE TABLE `role` (
 
 CREATE TABLE `permission` (
       `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-      `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
+      `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码,前端是路由,后端是接口路径',
       `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
       `parent_code` varchar(64) NOT NULL DEFAULT '' COMMENT '父级编码',
-      `perm` varchar(255) NOT NULL DEFAULT '' COMMENT '权限,前端是路由,后端是接口路径',
       `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '类型 1:菜单 2:接口',
       `weight` int(11) NOT NULL DEFAULT '0' COMMENT '权重',
       `ext_config` json DEFAULT NULL COMMENT '额外配置,如前端相关属性',

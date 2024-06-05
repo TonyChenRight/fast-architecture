@@ -14,8 +14,6 @@ public class UserListReq extends BasePage {
     private String code;
     @ApiModelProperty(value = "用户名", example = "tony")
     private String username;
-    @ApiModelProperty(value = "账户", example = "xxx@xx.com")
-    private String account;
     @ApiModelProperty(value = "状态 0-禁用 1-正常", example = "1")
     private Integer status;
 }
