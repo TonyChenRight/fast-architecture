@@ -92,3 +92,21 @@ CREATE TABLE `operation_log` (
      KEY `idx_type` (`type`),
      KEY `idx_target_id` (`target_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+
+CREATE TABLE `dict` (
+    `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '类型',
+    `code` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
+    `parent_code` varchar(64) NOT NULL DEFAULT '' COMMENT '父级编码',
+    `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+    `weight` int(11) NOT NULL DEFAULT '0' COMMENT '权重',
+    `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态  0:禁用  1:正常',
+    `created_at` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+    `updated_at` bigint(20) NOT NULL DEFAULT '0' COMMENT '更新时间',
+    `creator_code` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人编码',
+    `updater_code` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人编码',
+    `creator_name` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人名称',
+    `updater_name` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人名称',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uniq_type_code` (`type`,`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
