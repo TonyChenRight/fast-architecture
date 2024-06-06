@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tony.fast.architecture.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tony.fast.architecture.model.R;
-import com.tony.fast.architecture.model.user.UserListReq;
+import com.tony.fast.architecture.model.UserInfo;
+import com.tony.fast.architecture.model.user.UserEditReq;
+import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
+import com.tony.fast.architecture.model.user.UserStatusReq;
 
 import java.util.List;
 import java.util.Set;
@@ -21,5 +24,9 @@ public interface UserService extends IService<User> {
 
     int insertBatch(List<User> user);
 
-    R<IPage<UserPage>> userPage(UserListReq param);
+    R<IPage<UserPage>> userPage(UserPageReq param);
+
+    R<Long> userEdit(UserEditReq req, UserInfo user);
+
+    R<Long> userStatus(UserStatusReq req, UserInfo user);
 }

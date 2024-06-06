@@ -1,10 +1,16 @@
 package com.tony.fast.architecture.domain;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
+
+import com.tony.fast.architecture.enums.StatusType;
+import com.tony.fast.architecture.model.UserInfo;
+import com.tony.fast.architecture.model.user.UserEditReq;
 import lombok.Data;
 
 /**
@@ -82,4 +88,29 @@ public class User implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public static User buildByCreate(UserEditReq req, String genPassword, UserInfo opUser) {
+        User user =new User();
+        BeanUtil.copyProperties(req, user);
+        long timeMillis = System.currentTimeMillis();
+        user.setPassword(genPassword);
+        user.setStatus(StatusType.ENABLE.getVal());
+        user.setCreatorCode(opUser.getCode());
+        user.setCreatorName(opUser.getName());
+        user.setCreatedAt(timeMillis);
+        user.setUpdaterCode(opUser.getCode());
+        user.setUpdaterName(opUser.getName());
+        user.setUpdatedAt(timeMillis);
+        return user;
+    }
+
+    public static User buildByUpdate(UserEditReq req, UserInfo opUser) {
+        User user =new User();
+        req.setCode(null);
+        BeanUtil.copyProperties(req, user);
+        user.setUpdaterCode(opUser.getCode());
+        user.setUpdaterName(opUser.getName());
+        user.setUpdatedAt(System.currentTimeMillis());
+        return user;
+    }
 }

@@ -3,6 +3,7 @@ package com.tony.fast.architecture.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,8 +17,11 @@ import com.tony.fast.architecture.domain.User;
 import com.tony.fast.architecture.domain.UserRole;
 import com.tony.fast.architecture.enums.PermissionType;
 import com.tony.fast.architecture.model.R;
-import com.tony.fast.architecture.model.user.UserListReq;
+import com.tony.fast.architecture.model.UserInfo;
+import com.tony.fast.architecture.model.user.UserEditReq;
+import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
+import com.tony.fast.architecture.model.user.UserStatusReq;
 import com.tony.fast.architecture.service.PermissionService;
 import com.tony.fast.architecture.service.RolePermissionService;
 import com.tony.fast.architecture.service.UserRoleService;
@@ -28,9 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -86,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public R<IPage<UserPage>> userPage(UserListReq param) {
+    public R<IPage<UserPage>> userPage(UserPageReq param) {
         // 数据权限处理
         LambdaQueryWrapper<User> queryWrapper = Wrappers.lambdaQuery(User.class)
                 .like(StrUtil.isNotBlank(param.getUsername()), User::getName, param.getUsername())
@@ -96,6 +98,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 .orderByDesc(User::getUpdatedAt);
         IPage<User> listPage =super.page(new Page<>(param.getCurrent(), param.getSize()), queryWrapper);
         return R.ok(listPage.convert(UserPage::new));
+    }
+
+    @Override
+    public R<Long> userEdit(UserEditReq req, UserInfo opUser) {
+        Long id = req.getId();
+        if (id == null) {
+            User user = User.buildByCreate(req, DigestUtil.md5Hex("123456"), opUser);
+            save(user);
+            return R.ok(user.getId());
+        }
+
+        User user =User.buildByUpdate(req, opUser);
+        updateById(user);
+        return R.ok(user.getId());
+    }
+
+    @Override
+    public R<Long> userStatus(UserStatusReq req, UserInfo opUser) {
+        User user = getById(req.getId());
+        if (user == null) {
+            return R.error("用户不存在");
+        }
+
+        user.setStatus(req.getStatus());
+        user.setUpdaterCode(opUser.getCode());
+        user.setUpdaterName(opUser.getName());
+        user.setUpdatedAt(System.currentTimeMillis());
+        updateById(user);
+        return R.ok(user.getId());
     }
 }
 

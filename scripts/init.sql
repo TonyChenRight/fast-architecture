@@ -110,3 +110,29 @@ CREATE TABLE `dict` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uniq_type_code` (`type`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
+
+-- 插入用户
+INSERT INTO `user` (`id`, `code`, `name`, `password`, `status`, `created_at`, `updated_at`, `creator_code`, `updater_code`, `creator_name`, `updater_name`)
+VALUES
+    (1, 'admin', '管理员', 'e10adc3949ba59abbe56e057f20f883e', 1, 1717592329000, 1717592329000, 'SYS', 'SYS', '系统', '系统'),
+    (3, 'user1', '用户1', 'e10adc3949ba59abbe56e057f20f883e', 1, 1717592329000, 1717592329000, 'SYS', 'SYS', '系统', '系统');
+-- 插入角色
+INSERT INTO `role` (`id`, `code`, `name`, `status`, `created_at`, `updated_at`, `creator_code`, `updater_code`, `creator_name`, `updater_name`)
+VALUES
+    (1, 'SUPER_ROLE', '超级角色', 1, 1717592329000, 1717592329000, 'SYS', 'SYS', '系统', '系统'),
+    (2, 'NORMAL_ROLE', '普通角色', 1, 1717592329000, 1717592329000, 'SYS', 'SYS', '系统', '系统');
+-- 插入权限
+INSERT INTO `permission` (`id`, `code`, `name`, `parent_code`, `type`, `weight`, `ext_config`, `status`, `created_at`, `updated_at`, `creator_code`, `updater_code`, `creator_name`, `updater_name`)
+VALUES
+    (1, '/admin/user/**', '用户管理所有权限', '', 2, 0, NULL, 1, 1717592329000, 1717592329000, 'SYS', 'SYS', '系统', '系统'),
+    (2, '/admin/user/page', '用户查询权限', '', 2, 0, NULL, 1, 1717592329000, 1717592329000, 'SYS', 'SYS', '系统', '系统');
+-- 用户绑定角色
+INSERT INTO `user_role` (`id`, `user_code`, `role_code`, `created_at`, `creator_code`, `creator_name`)
+VALUES
+    (1, 'admin', 'SUPER_ROLE', 1717592329000, 'SYS', '系统'),
+    (2, 'user1', 'NORMAL_ROLE', 1717592329000, 'SYS', '系统');
+-- 角色绑定权限
+INSERT INTO `role_permission` (`id`, `role_code`, `permission_code`, `created_at`, `creator_code`, `creator_name`)
+VALUES
+    (1, 'SUPER_ROLE', '/admin/user/**', 1717592329000, 'SYS', '系统'),
+    (2, 'NORMAL_ROLE', '/admin/user/page', 1717592329000, 'SYS', '系统');

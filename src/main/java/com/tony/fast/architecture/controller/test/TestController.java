@@ -9,7 +9,7 @@ import com.tony.fast.architecture.enums.OperationModule;
 import com.tony.fast.architecture.enums.OperationType;
 import com.tony.fast.architecture.model.R;
 import com.tony.fast.architecture.model.lock.LockTestReq;
-import com.tony.fast.architecture.model.user.UserListReq;
+import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
 import com.tony.fast.architecture.remote.RemoteClient;
 import com.tony.fast.architecture.service.UserService;
@@ -73,7 +73,7 @@ public class TestController {
     }
 
     @GetMapping("/user/page")
-    public R<IPage<UserPage>> testUserPage(UserListReq userListReq) {
+    public R<IPage<UserPage>> testUserPage(UserPageReq userListReq) {
         return remoteClient.queryUserPage(userListReq);
     }
 }

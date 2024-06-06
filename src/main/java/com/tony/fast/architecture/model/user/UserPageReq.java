@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserListReq extends BasePage {
+public class UserPageReq extends BasePage {
     @ApiModelProperty(value = "用户ID", example = "1")
     private Long id;
     @ApiModelProperty(value = "编码", example = "xxx@xx.com")

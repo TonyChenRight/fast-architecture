@@ -7,7 +7,7 @@ import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tony.fast.architecture.config.SystemConfig;
 import com.tony.fast.architecture.model.R;
-import com.tony.fast.architecture.model.user.UserListReq;
+import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
 import com.tony.fast.architecture.utils.JsonUtil;
 import com.tony.fast.architecture.utils.SignatureUtil;
@@ -31,7 +31,7 @@ public class RemoteClient {
 
     private static final int TIMEOUT = 10000;
 
-    public R<IPage<UserPage>> queryUserPage(UserListReq param) {
+    public R<IPage<UserPage>> queryUserPage(UserPageReq param) {
         try {
             log.info("RemoteClient.queryUserPage 请求参数：{}", JSON.toJSONString(param));
             Map<String, String> headers = SignatureUtil.buildSignatureHeaders(APP_ID, APP_KEY);

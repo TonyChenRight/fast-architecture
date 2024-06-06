@@ -2,7 +2,7 @@ package com.tony.fast.architecture.controller.open;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tony.fast.architecture.model.R;
-import com.tony.fast.architecture.model.user.UserListReq;
+import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
 import com.tony.fast.architecture.service.UserService;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ public class UserApiController {
 
     @ApiOperation("用户分页")
     @GetMapping("/user/page")
-    public R<IPage<UserPage>> userPage(@Validated UserListReq param) {
+    public R<IPage<UserPage>> userPage(@Validated UserPageReq param) {
         return userService.userPage(param);
     }
 }
