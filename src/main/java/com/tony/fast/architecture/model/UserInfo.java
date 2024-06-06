@@ -19,6 +19,4 @@ public class UserInfo {
     private String code;
     @ApiModelProperty(value = "用户名", example = "xxxx")
     private String name;
-    @ApiModelProperty(value = "登录账号", example = "xxxx")
-    private String account;
 }

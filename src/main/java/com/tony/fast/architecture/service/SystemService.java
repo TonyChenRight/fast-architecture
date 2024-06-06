@@ -58,7 +58,7 @@ public class SystemService {
             ImageIO.write(image, "jpg", os);
         } catch (IOException e){
             log.error("图片转换失败");
-            return R.error("验证码图片生成失败");
+            return R.sysError("验证码图片生成失败");
         }
 
         return R.ok(VerifyInfo.builder()
@@ -72,23 +72,23 @@ public class SystemService {
         String verifyCacheKey = RedisKeys.VERIFY_CODE_PREFIX + req.getCaptchaId();
         String verifyCode = (String) redisTemplate.opsForValue().get(verifyCacheKey);
         if (StrUtil.isBlank(verifyCode) || !Objects.equals(req.getVerifyCode(), verifyCode)) {
-            return R.error("验证码错误");
+            return R.sysError("验证码错误");
         }
         User user = userService.queryByAccount(req.getUsername());
         if (user == null) {
-            return R.error("用户不存在");
+            return R.sysError("用户不存在");
         }
         if (Objects.equals(user.getStatus(), StatusType.DISABLE.getVal())) {
-            return R.error("用户已禁用");
+            return R.sysError("用户已禁用");
         }
         String password = DigestUtil.md5Hex(req.getPassword());
         if (!Objects.equals(user.getPassword(), password)) {
-            return R.error("账号或密码错误");
+            return R.sysError("账号或密码错误");
         }
 
         UserInfo userInfo = UserInfo.builder()
                 .userId(user.getId())
-                .account(user.getCode())
+                .code(user.getCode())
                 .name(user.getName())
                 .build();
         String userToken = TokenUtil.uuidToken();
@@ -101,7 +101,7 @@ public class SystemService {
 
     public R logout(String userToken) {
         if (StrUtil.isBlank(userToken)) {
-            return R.error("user-token不能为空");
+            return R.sysError("user-token不能为空");
         }
         redisTemplate.delete(RedisKeys.TOKEN_PREFIX + userToken);
         return R.ok();
@@ -109,7 +109,7 @@ public class SystemService {
 
     public R<UserInfo> getUserInfo(String userToken) {
         if (StrUtil.isBlank(userToken)) {
-            return R.error("user-token不能为空");
+            return R.sysError("user-token不能为空");
         }
         UserInfo userInfo = (UserInfo)redisTemplate.opsForValue().get(RedisKeys.TOKEN_PREFIX + userToken);
         return R.ok(userInfo);
@@ -138,10 +138,10 @@ public class SystemService {
             return R.error(Codes.REDIRECT, "请重新登录");
         }
         if (!StrUtil.equals(req.getNewPassword(), req.getReNewPassword())) {
-            return R.error("两次密码输入不一致");
+            return R.sysError("两次密码输入不一致");
         }
         if (StrUtil.equals(req.getOldPassword(), req.getNewPassword())) {
-            return R.error("新密码不允许与旧密码一致");
+            return R.sysError("新密码不允许与旧密码一致");
         }
         return userService.userUpdateOwnPassword(userInfo, req);
     }
