@@ -4,6 +4,8 @@ public interface Constants {
     String BASE_PACKAGE = "com.tony.fast.architecture";
     String USER_TOKEN = "user-token";
 
+    String IMG_BASE64_PREFIX = "data:image/jpg;base64,";
+
     String MYBATIS_EXT_INSERT_BATCH_METHOD = "insertBatch";
     String MYBATIS_EXT_UPDATE_BATCH_METHOD = "updateBatch";
 

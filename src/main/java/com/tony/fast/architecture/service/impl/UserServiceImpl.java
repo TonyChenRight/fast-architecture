@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tony.fast.architecture.config.SystemConfig;
 import com.tony.fast.architecture.constant.Constants;
 import com.tony.fast.architecture.domain.Permission;
 import com.tony.fast.architecture.domain.RolePermission;
@@ -18,6 +19,7 @@ import com.tony.fast.architecture.domain.UserRole;
 import com.tony.fast.architecture.enums.PermissionType;
 import com.tony.fast.architecture.model.R;
 import com.tony.fast.architecture.model.UserInfo;
+import com.tony.fast.architecture.model.system.UpdateOwnPasswordReq;
 import com.tony.fast.architecture.model.user.UserEditReq;
 import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
@@ -51,28 +53,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private RolePermissionService rolePermissionService;
     @Resource
     private PermissionService permissionService;
+    @Resource
+    private SystemConfig systemConfig;
 
     @Override
     public Set<String> queryApisByUserCode(String userCode) {
-        Set<String> roleCodes = userRoleService.list(
-                Wrappers.lambdaQuery(UserRole.class)
-                        .eq(UserRole::getUserCode, userCode)
-        ).stream().map(UserRole::getRoleCode).collect(Collectors.toSet());
-        if (CollUtil.isEmpty(roleCodes)) {
-            return Collections.emptySet();
-        }
-        Set<String> permissionCodes = rolePermissionService.list(
-                Wrappers.lambdaQuery(RolePermission.class)
-                        .in(RolePermission::getRoleCode, roleCodes)
-        ).stream().map(RolePermission::getPermissionCode).collect(Collectors.toSet());
-        if (CollUtil.isEmpty(permissionCodes)) {
-            return Collections.emptySet();
-        }
-        return permissionService.list(
-                Wrappers.lambdaQuery(Permission.class)
-                        .in(Permission::getCode, permissionCodes)
-                        .eq(Permission::getType, PermissionType.API.getVal())
-        ).stream().map(Permission::getCode).collect(Collectors.toSet());
+        return queryPermission(userCode)
+                .stream().filter(e -> Objects.equals(e.getType(), PermissionType.API.getVal()))
+                .map(Permission::getCode)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -122,6 +111,72 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         user.setStatus(req.getStatus());
+        user.setUpdaterCode(opUser.getCode());
+        user.setUpdaterName(opUser.getName());
+        user.setUpdatedAt(System.currentTimeMillis());
+        updateById(user);
+        return R.ok(user.getId());
+    }
+
+    @Override
+    public User queryByAccount(String username) {
+        LambdaQueryWrapper<User> queryWrapper = Wrappers.lambdaQuery(User.class)
+                .eq(User::getCode, username);
+        List<User> users = list(queryWrapper);
+        if (CollUtil.isEmpty(users) || users.get(0) == null) {
+            return null;
+        }
+        return users.get(0);
+    }
+
+    @Override
+    public List<Permission> queryPermission(String userCode) {
+        Set<String> roleCodes = userRoleService.list(
+                Wrappers.lambdaQuery(UserRole.class)
+                        .eq(UserRole::getUserCode, userCode)
+        ).stream().map(UserRole::getRoleCode).collect(Collectors.toSet());
+        if (CollUtil.isEmpty(roleCodes)) {
+            return Collections.emptyList();
+        }
+        Set<String> permissionCodes = rolePermissionService.list(
+                Wrappers.lambdaQuery(RolePermission.class)
+                        .in(RolePermission::getRoleCode, roleCodes)
+        ).stream().map(RolePermission::getPermissionCode).collect(Collectors.toSet());
+        if (CollUtil.isEmpty(permissionCodes)) {
+            return Collections.emptyList();
+        }
+        return permissionService.list(
+                Wrappers.lambdaQuery(Permission.class)
+                        .in(Permission::getCode, permissionCodes)
+        );
+    }
+
+    @Override
+    public R<Long> userUpdateOwnPassword(UserInfo userInfo, UpdateOwnPasswordReq req) {
+        User user = getById(userInfo.getUserId());
+        if (user == null) {
+            return R.error("用户不存在");
+        }
+        String oldPassword = DigestUtil.md5Hex(req.getOldPassword());
+        if (!StrUtil.equals(user.getPassword(), oldPassword)) {
+            return R.error("旧密码不正确");
+        }
+
+        user.setPassword(DigestUtil.md5Hex(req.getNewPassword()));
+        user.setUpdaterCode(userInfo.getCode());
+        user.setUpdaterName(userInfo.getName());
+        user.setUpdatedAt(System.currentTimeMillis());
+        updateById(user);
+        return R.ok(user.getId());
+    }
+
+    @Override
+    public R<Long> userResetPassword(Long id, UserInfo opUser) {
+        User user = getById(id);
+        if (user == null) {
+            return R.error("用户不存在");
+        }
+        user.setPassword(DigestUtil.md5Hex(systemConfig.getGenPassword()));
         user.setUpdaterCode(opUser.getCode());
         user.setUpdaterName(opUser.getName());
         user.setUpdatedAt(System.currentTimeMillis());

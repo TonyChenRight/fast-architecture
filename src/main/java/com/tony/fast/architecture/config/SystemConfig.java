@@ -19,6 +19,9 @@ public class SystemConfig {
     @Value("#{'${system.skip-permission-path}'.split(',')}")
     private List<String> skipPermissionPath;
 
+    @Value("${system.gen-password:123456}")
+    private String genPassword;
+
     @Value("#{${system.api-signature}}")
     private Map<String, String> apiSignatureMap;
 
@@ -26,6 +29,7 @@ public class SystemConfig {
     public void init() {
         log.info("读取配置 maxTokenExpireSeconds : {}", maxTokenExpireSeconds);
         log.info("读取配置 skipPermissionPath : {}", skipPermissionPath);
+        log.info("读取配置 genPassword : {}", genPassword);
         log.info("读取配置 apiSignatureMap : {}", apiSignatureMap);
     }
 }

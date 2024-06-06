@@ -49,4 +49,5 @@ logging:
 system:
   max-token-expire-seconds: 28800
   skip-permission-path: /common/**
+  gen-password: 123456
   api-signature: '{"417c4f3f30d34043": "5d940d7bb69d428eaf813a243591aba3"}'

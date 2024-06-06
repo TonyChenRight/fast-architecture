@@ -1,10 +1,12 @@
 package com.tony.fast.architecture.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.tony.fast.architecture.domain.Permission;
 import com.tony.fast.architecture.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tony.fast.architecture.model.R;
 import com.tony.fast.architecture.model.UserInfo;
+import com.tony.fast.architecture.model.system.UpdateOwnPasswordReq;
 import com.tony.fast.architecture.model.user.UserEditReq;
 import com.tony.fast.architecture.model.user.UserPageReq;
 import com.tony.fast.architecture.model.user.UserPage;
@@ -29,4 +31,12 @@ public interface UserService extends IService<User> {
     R<Long> userEdit(UserEditReq req, UserInfo user);
 
     R<Long> userStatus(UserStatusReq req, UserInfo user);
+
+    User queryByAccount(String username);
+
+    List<Permission> queryPermission(String code);
+
+    R<Long> userUpdateOwnPassword(UserInfo userInfo, UpdateOwnPasswordReq req);
+
+    R<Long> userResetPassword(Long id, UserInfo user);
 }

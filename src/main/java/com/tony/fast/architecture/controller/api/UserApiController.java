@@ -1,4 +1,4 @@
-package com.tony.fast.architecture.controller.open;
+package com.tony.fast.architecture.controller.api;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tony.fast.architecture.model.R;
@@ -18,14 +18,14 @@ import javax.annotation.Resource;
 @Slf4j
 @Api(tags = "用户内部接口")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserApiController {
 
     @Resource
     private UserService userService;
 
     @ApiOperation("用户分页")
-    @GetMapping("/user/page")
+    @GetMapping("/page")
     public R<IPage<UserPage>> userPage(@Validated UserPageReq param) {
         return userService.userPage(param);
     }

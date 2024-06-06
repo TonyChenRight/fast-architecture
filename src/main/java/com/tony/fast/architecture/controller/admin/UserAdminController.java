@@ -2,6 +2,7 @@ package com.tony.fast.architecture.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tony.fast.architecture.context.UserContextHolder;
+import com.tony.fast.architecture.model.IdReq;
 import com.tony.fast.architecture.model.R;
 import com.tony.fast.architecture.model.user.UserEditReq;
 import com.tony.fast.architecture.model.user.UserPageReq;
@@ -19,14 +20,14 @@ import javax.annotation.Resource;
 @Slf4j
 @Api(tags = "用户管理接口")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/user")
 public class UserAdminController {
 
     @Resource
     private UserService userService;
 
     @ApiOperation("用户分页")
-    @GetMapping("/user/page")
+    @GetMapping("/page")
     public R<IPage<UserPage>> userPage(@Validated UserPageReq param) {
         return userService.userPage(param);
     }
@@ -41,5 +42,11 @@ public class UserAdminController {
     @PostMapping("/status")
     public R<Long> userStatus(@Validated @RequestBody UserStatusReq req) {
         return userService.userStatus(req, UserContextHolder.getUser());
+    }
+
+    @ApiOperation("重置密码")
+    @PostMapping("/reset_password")
+    public R<Long> userResetPassword(@Validated @RequestBody IdReq req) {
+        return userService.userResetPassword(req.getId(), UserContextHolder.getUser());
     }
 }
