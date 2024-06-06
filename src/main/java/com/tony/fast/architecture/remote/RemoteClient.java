@@ -20,9 +20,6 @@ import java.util.Map;
 @Slf4j
 @Component
 public class RemoteClient {
-    @Resource
-    private SystemConfig systemConfig;
-
     private static final String USER_PAGE_PATH = "/api/user/page";
 
     private static final String HOST = "http://127.0.0.1:8080";

@@ -2,6 +2,10 @@ package com.tony.fast.architecture.service;
 
 import com.tony.fast.architecture.domain.Dict;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tony.fast.architecture.model.dict.DictSelect;
+import com.tony.fast.architecture.model.dict.DictSelectReq;
+
+import java.util.List;
 
 /**
 * @author tonychen
@@ -10,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface DictService extends IService<Dict> {
 
+    List<DictSelect> selectDict(DictSelectReq req);
 }
