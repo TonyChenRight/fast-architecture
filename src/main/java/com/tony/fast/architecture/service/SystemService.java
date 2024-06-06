@@ -122,7 +122,7 @@ public class SystemService {
         }
         UserInfo userInfo = result.getData();
         if (userInfo == null) {
-            return R.error(Codes.REDIRECT, "请重新登录");
+            return R.error(Codes.REDIRECT);
         }
         List<Permission> permissions = userService.queryPermission(userInfo.getCode());
         return R.ok(permissions);
@@ -135,7 +135,7 @@ public class SystemService {
         }
         UserInfo userInfo = result.getData();
         if (userInfo == null) {
-            return R.error(Codes.REDIRECT, "请重新登录");
+            return R.error(Codes.REDIRECT);
         }
         if (!StrUtil.equals(req.getNewPassword(), req.getReNewPassword())) {
             return R.sysError("两次密码输入不一致");

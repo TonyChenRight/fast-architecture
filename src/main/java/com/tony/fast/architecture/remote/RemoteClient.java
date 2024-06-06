@@ -41,18 +41,18 @@ public class RemoteClient {
                     .execute()
                     .body();
             if (StrUtil.isBlank(body)) {
-                return R.error("响应为空");
+                return R.sysError("响应为空");
             }
             R<IPage<UserPage>> result = JSON.parseObject(body, new TypeReference<R<IPage<UserPage>>>() {
             });
             log.info("RemoteClient.queryUserPage 响应结果：{}", JSON.toJSONString(result));
             if (!result.isSuccess()) {
-                return R.error(result.getMessage());
+                return R.sysError(result.getMessage());
             }
             return result;
         }catch (Exception e) {
             log.error("queryUserPage error: ", e);
-            return R.error(e.getMessage());
+            return R.sysError(e.getMessage());
         }
     }
 

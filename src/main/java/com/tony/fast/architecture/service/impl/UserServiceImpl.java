@@ -107,7 +107,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public R<Long> userStatus(UserStatusReq req, UserInfo opUser) {
         User user = getById(req.getId());
         if (user == null) {
-            return R.error("用户不存在");
+            return R.sysError("用户不存在");
         }
 
         user.setStatus(req.getStatus());
@@ -155,11 +155,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public R<Long> userUpdateOwnPassword(UserInfo userInfo, UpdateOwnPasswordReq req) {
         User user = getById(userInfo.getUserId());
         if (user == null) {
-            return R.error("用户不存在");
+            return R.sysError("用户不存在");
         }
         String oldPassword = DigestUtil.md5Hex(req.getOldPassword());
         if (!StrUtil.equals(user.getPassword(), oldPassword)) {
-            return R.error("旧密码不正确");
+            return R.sysError("旧密码不正确");
         }
 
         user.setPassword(DigestUtil.md5Hex(req.getNewPassword()));
@@ -174,7 +174,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public R<Long> userResetPassword(Long id, UserInfo opUser) {
         User user = getById(id);
         if (user == null) {
-            return R.error("用户不存在");
+            return R.sysError("用户不存在");
         }
         user.setPassword(DigestUtil.md5Hex(systemConfig.getGenPassword()));
         user.setUpdaterCode(opUser.getCode());
